@@ -4,7 +4,7 @@ const sourceSelector = document.querySelector('#sourceSelector')
 const defaultSource = 'reuters'
 
 window.addEventListener('load', async e => {
-  updateNews()
+  await updateNews()
   await updateSources()
 
   sourceSelector.value = defaultSource
@@ -12,7 +12,7 @@ window.addEventListener('load', async e => {
 
   if('serviceWorker' in navigator) {
     try {
-      navigator.serviceWorker.register('sw.js')
+      await navigator.serviceWorker.register('sw.js')
       console.log('Serviceworker registered')
     } catch (err) {
       console.error('serviceworker not found', err)
@@ -29,7 +29,7 @@ async function updateSources() {
 }
 
 async function updateNews(source = defaultSource) {
-  const res = await fetch(`https://newsapi.org/v2/everything?sources=${source}&language=en&apiKey=${apiKey}`)
+  const res = await fetch(`https://newsapi.org/v2/everything?sources=${source}&language=nl&apiKey=${apiKey}`)
   const json = await res.json()
 
   main.innerHTML = json.articles.map(createArticle).join('\n')
